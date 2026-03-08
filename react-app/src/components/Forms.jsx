@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useApp } from '../App';
-import { addStock, removeStock } from '../api';
+import { addStock, removeStock, registerProduct } from '../api';
 
 // ── Helpers ───────────────────────────────────────────────────
 const today = () => new Date().toISOString().split('T')[0];
@@ -56,6 +56,18 @@ export function InboundForm({ product, barcode, onSuccess, onCancel }) {
     if (!validate()) return;
     setLoading(true);
     try {
+      // Save to PRODUCTS_DB so next scan pre-fills automatically
+      await registerProduct({
+        barcode,
+        product_name:             form.product_name,
+        brand:                    form.brand,
+        default_category:         form.category,
+        default_sub_category:     form.sub_category,
+        default_unit_type:        form.unit_type,
+        pack_size:                form.pack_size || '',
+        default_consumption_track:form.consumption_track,
+      });
+      // Log the stock addition
       await addStock({ barcode, ...form, pack_size: form.pack_size || '' });
       showToast(`✓ ${form.product_name} added to inventory`);
       onSuccess?.();
