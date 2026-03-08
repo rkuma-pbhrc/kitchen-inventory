@@ -19,6 +19,7 @@ export function InboundForm({ product, barcode, onSuccess, onCancel }) {
     category:          product?.default_category  || '',
     sub_category:      product?.default_sub_category || '',
     unit_type:         product?.default_unit_type || 'kg',
+    pack_size:         product?.pack_size || '',
     consumption_track: product?.default_consumption_track || 'SHARED',
     qty_added:         '',
     purchase_date:     today(),
@@ -55,7 +56,7 @@ export function InboundForm({ product, barcode, onSuccess, onCancel }) {
     if (!validate()) return;
     setLoading(true);
     try {
-      await addStock({ barcode, ...form });
+      await addStock({ barcode, ...form, pack_size: form.pack_size || '' });
       showToast(`✓ ${form.product_name} added to inventory`);
       onSuccess?.();
     } catch (err) {
@@ -131,6 +132,16 @@ export function InboundForm({ product, barcode, onSuccess, onCancel }) {
           </select>
         </div>
       </div>
+
+      {/* Pack Size — shown only when unit is pack */}
+      {form.unit_type === 'pack' && (
+        <div className="field-group">
+          <label className="label">Pack Size (e.g. 5kg, 500g, 1L)</label>
+          <input className="input-field" value={form.pack_size}
+            onChange={e => set('pack_size', e.target.value)}
+            placeholder="e.g. 5kg" />
+        </div>
+      )}
 
       {/* Dates */}
       <div className="field-row">
