@@ -326,8 +326,6 @@ function OutboundForm({ item, onSuccess, onCancel }) {
 
 function NewProductSheet({ barcode, onSuccess, onCancel }) {
   const { showToast } = useApp();
-  const [saving, setSaving] = useState(false);
-  const { InboundForm } = require('../components/Forms');
   return (
     <div>
       <div className="bottom-sheet-title">New Product</div>

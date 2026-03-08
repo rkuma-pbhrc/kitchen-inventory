@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useApp } from '../App';
-import { addStock } from '../api';
+import { addStock, removeStock } from '../api';
 
 // ── Helpers ───────────────────────────────────────────────────
 const today = () => new Date().toISOString().split('T')[0];
@@ -203,7 +203,6 @@ export function InboundForm({ product, barcode, onSuccess, onCancel }) {
 // ============================================================
 export function OutboundForm({ item, onSuccess, onCancel }) {
   const { options, showToast } = useApp();
-  const { removeStock } = require('../api');
 
   const [qty,    setQty]    = useState('');
   const [reason, setReason] = useState('COOKING');
