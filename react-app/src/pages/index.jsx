@@ -157,13 +157,13 @@ export function Scan() {
         }
       } else {
         // Use mode — need to find item in inventory
-        const inv = await getInventory({ search: barcode });
-        const item = inv.items.find(i => i.barcode === barcode);
+        const inv = await getInventory({});
+        const item = inv.items.find(i => String(i.barcode).trim() === String(barcode).trim());
         if (item) {
           setResolvedItem(item);
           setSheet('outbound');
         } else {
-          showToast('Item not found in inventory', 'error');
+          showToast('Item not found in inventory. Make sure it was added first.', 'error');
           resetScan();
         }
       }
