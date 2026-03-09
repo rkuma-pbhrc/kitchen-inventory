@@ -129,7 +129,7 @@ import { resolveBarcode, getInventory, removeStock } from '../api';
 import { useApp } from '../App';
 
 export function Scan() {
-  const { showToast, options }          = useApp();
+  const { showToast, options, inventory, setInventory } = useApp();
   const [mode, setMode]                 = useState('add'); // 'add' | 'use'
   const [scanning, setScanning]         = useState(true);
   const [resolving, setResolving]       = useState(false);
@@ -159,9 +159,14 @@ export function Scan() {
           setSheet('unknown');
         }
       } else {
-        // Use mode — need to find item in inventory
-        const inv = await getInventory({});
-        const item = inv.items.find(i => String(i.barcode).trim() === String(barcode).trim());
+        // Use mode — check preloaded inventory first (instant), fall back to API
+        let item = inventory.find(i => String(i.barcode).trim() === String(barcode).trim());
+        if (!item) {
+          // Not in cache — fetch fresh
+          const inv = await getInventory({});
+          if (setInventory) setInventory(inv.items || []);
+          item = (inv.items || []).find(i => String(i.barcode).trim() === String(barcode).trim());
+        }
         if (item) {
           setResolvedItem(item);
           setSheet('outbound');

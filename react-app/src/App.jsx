@@ -7,7 +7,7 @@ import Inventory from './pages/Inventory';
 import Alerts from './pages/Alerts';
 import OpenContainers from './pages/OpenContainers';
 import Admin from './pages/Admin';
-import { getOptions, getCategories } from './api';
+import { getOptions, getCategories, getInventory } from './api';
 
 // ── App Context ───────────────────────────────────────────────
 export const AppContext = createContext(null);
@@ -116,18 +116,41 @@ const styles = `
     letter-spacing: 0.12em; text-transform: uppercase; margin: 20px 0 10px; }
 `;
 
+// ── Session cache helpers ─────────────────────────────────────
+function cacheGet(key) {
+  try { const v = sessionStorage.getItem(key); return v ? JSON.parse(v) : null; } catch { return null; }
+}
+function cacheSet(key, value) {
+  try { sessionStorage.setItem(key, JSON.stringify(value)); } catch {}
+}
+
 export default function App() {
-  const [options, setOptions] = useState(null);
-  const [categories, setCategories] = useState(null);
+  const [options,    setOptions]    = useState(() => cacheGet('app_options'));
+  const [categories, setCategories] = useState(() => cacheGet('app_categories'));
+  const [inventory,  setInventory]  = useState(() => cacheGet('app_inventory') || []);
   const [toast, setToast] = useState(null);
 
   useEffect(() => {
-    Promise.all([getOptions(), getCategories()])
-      .then(([optRes, catRes]) => {
-        setOptions(optRes.options);
-        setCategories(catRes.categories);
+    // Load options + categories (use cache if available, refresh in background)
+    const needsConfig = !options || !categories;
+    if (needsConfig) {
+      Promise.all([getOptions(), getCategories()])
+        .then(([optRes, catRes]) => {
+          setOptions(optRes.options);
+          setCategories(catRes.categories);
+          cacheSet('app_options', optRes.options);
+          cacheSet('app_categories', catRes.categories);
+        })
+        .catch(err => console.error('Failed to load app config:', err));
+    }
+
+    // Preload full inventory into memory for instant barcode lookup
+    getInventory({})
+      .then(res => {
+        setInventory(res.items || []);
+        cacheSet('app_inventory', res.items || []);
       })
-      .catch(err => console.error('Failed to load app config:', err));
+      .catch(err => console.error('Failed to preload inventory:', err));
   }, []);
 
   const showToast = (message, type = 'success', duration = 3000) => {
@@ -136,7 +159,7 @@ export default function App() {
   };
 
   return (
-    <AppContext.Provider value={{ options, categories, showToast }}>
+    <AppContext.Provider value={{ options, categories, inventory, setInventory, showToast }}>
       <style>{styles}</style>
       <BrowserRouter>
         <Routes>
