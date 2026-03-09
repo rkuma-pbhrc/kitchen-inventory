@@ -159,7 +159,7 @@ const COL = {
 
 const OPTIONS = {
   UNIT_TYPE:         ['g', 'kg', 'ml', 'L', 'pcs', 'pack', 'dozen'],
-  CONSUMPTION_TRACK: ['FAMILY', 'STAFF', 'SHARED'],
+  CONSUMPTION_TRACK: ['FAMILY', 'BABY', 'STAFF', 'SHARED'],
   STORAGE_LOCATION:  ['Pantry', 'Fridge', 'Freezer', 'Bar', 'Puja Room', 'Medicine Cabinet', 'Store Room', 'Pet Corner'],
   DRAWDOWN_REASON:   ['COOKING', 'EXPIRED', 'DAMAGED', 'TRANSFER'],
   ITEM_STATUS:       ['ACTIVE', 'DISCONTINUED', 'OUT_OF_STOCK', 'OPEN_PARTIAL', 'SEASONAL'],
