@@ -139,8 +139,11 @@ export function Scan() {
   const [currentBarcode, setBarcode]    = useState('');
   const [manualBarcode, setManual]      = useState('');
 
-  const handleScan = async (barcode) => {
+  const handleScan = async (rawBarcode) => {
     if (resolving) return;
+    // Strip any whitespace, newlines or hidden chars the scanner may append
+    const barcode = String(rawBarcode).replace(/[^0-9a-zA-Z\-]/g, '').trim();
+    if (!barcode) return;
     setBarcode(barcode);
     setResolving(true);
     setScanning(false);
