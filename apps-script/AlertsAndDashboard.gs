@@ -1,3 +1,7 @@
+// ── Date/time helpers ───────────────────────────────────────
+function _ds_a(d) { return Utilities.formatDate(d, Session.getScriptTimeZone(), 'dd/MM/yyyy'); }
+function _ts_a(d) { return Utilities.formatDate(d, Session.getScriptTimeZone(), 'HH:mm:ss'); }
+
 // ============================================================
 // AlertsEngine.gs
 // Runs on a daily Apps Script trigger (e.g. 7am).
@@ -106,6 +110,8 @@ function _createAlert(itemId, alertType, currentQty, reorderLevel, expiryDate) {
   sheet.appendRow([
     generateId('ALT'),
     new Date(),
+    _ds_a(new Date()),
+    _ts_a(new Date()),
     itemId,
     alertType,
     currentQty !== null ? currentQty : '',

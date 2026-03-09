@@ -1,3 +1,7 @@
+// ── Date/time helpers ───────────────────────────────────────
+function _ds_c(d) { return Utilities.formatDate(d, Session.getScriptTimeZone(), 'dd/MM/yyyy'); }
+function _ts_c(d) { return Utilities.formatDate(d, Session.getScriptTimeZone(), 'HH:mm:ss'); }
+
 // ============================================================
 // OpenContainerTracker.gs
 // Manages partially-used / decanted packs.
@@ -219,6 +223,8 @@ function submitOverride(itemId, newQty, reason, overrideBy, notes) {
   sheet.appendRow([
     overrideId,
     now,
+    _ds_c(now),
+    _ts_c(now),
     itemId,
     qtyBefore,
     qtyAfter,
@@ -253,6 +259,8 @@ function _applyOverrideToMaster(itemId, newQty, approvedBy, timestamp) {
       sheet.getRange(rowNum, COL.MASTER.LAST_OVERRIDE_DATE + 1).setValue(formatDate(timestamp));
       sheet.getRange(rowNum, COL.MASTER.LAST_OVERRIDE_BY + 1).setValue(approvedBy);
       sheet.getRange(rowNum, COL.MASTER.LAST_UPDATED + 1).setValue(timestamp);
+      sheet.getRange(rowNum, COL.MASTER.LAST_UPDATED_DATE + 1).setValue(_ds_c(timestamp));
+      sheet.getRange(rowNum, COL.MASTER.LAST_UPDATED_TIME + 1).setValue(_ts_c(timestamp));
 
       const newStatus = newQty === 0 ? 'OUT_OF_STOCK' : 'ACTIVE';
       sheet.getRange(rowNum, COL.MASTER.STATUS + 1).setValue(newStatus);

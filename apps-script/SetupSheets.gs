@@ -15,17 +15,19 @@ const HEADERS = {
     'item_id', 'barcode', 'product_name', 'brand', 'category', 'sub_category',
     'unit_type', 'current_qty', 'reorder_level', 'reorder_qty',
     'storage_location', 'consumption_track', 'last_updated',
+    'last_updated_date', 'last_updated_time',
     'last_override_date', 'last_override_by', 'status'
   ],
   INBOUND_LOG: [
-    'log_id', 'purchase_date', 'timestamp', 'item_id', 'barcode',
-    'product_name', 'brand', 'category', 'sub_category',
+    'log_id', 'purchase_date', 'timestamp', 'entry_date', 'entry_time',
+    'item_id', 'barcode', 'product_name', 'brand', 'category', 'sub_category',
     'qty_added', 'unit_type', 'unit_price', 'total_cost',
     'supplier', 'invoice_no', 'expiry_date',
     'storage_location', 'entered_by', 'consumption_track', 'notes'
   ],
   OUTBOUND_LOG: [
-    'log_id', 'timestamp', 'item_id', 'barcode', 'qty_removed',
+    'log_id', 'timestamp', 'entry_date', 'entry_time',
+    'item_id', 'barcode', 'qty_removed',
     'drawdown_reason', 'recipe_id', 'meal_event_id',
     'drawn_by', 'consumption_track', 'notes'
   ],
@@ -35,7 +37,8 @@ const HEADERS = {
     'last_estimated_date', 'estimated_by', 'storage_location', 'status', 'notes'
   ],
   STOCK_OVERRIDES: [
-    'override_id', 'timestamp', 'item_id', 'qty_before', 'qty_after',
+    'override_id', 'timestamp', 'override_date', 'override_time',
+    'item_id', 'qty_before', 'qty_after',
     'difference', 'reason', 'override_by', 'approved_by', 'notes'
   ],
   PRODUCTS_DB: [
@@ -46,7 +49,8 @@ const HEADERS = {
     'category_id', 'category_name', 'sub_category_id', 'sub_category_name', 'icon', 'sort_order'
   ],
   ALERTS: [
-    'alert_id', 'timestamp', 'item_id', 'alert_type',
+    'alert_id', 'timestamp', 'alert_date', 'alert_time',
+    'item_id', 'alert_type',
     'current_qty', 'reorder_level', 'expiry_date', 'status', 'notes'
   ],
   USERS: [

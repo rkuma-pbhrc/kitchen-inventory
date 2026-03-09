@@ -1,3 +1,7 @@
+// ── Date/time helpers ───────────────────────────────────────
+function _ds(d) { return Utilities.formatDate(d, Session.getScriptTimeZone(), 'dd/MM/yyyy'); }
+function _ts(d) { return Utilities.formatDate(d, Session.getScriptTimeZone(), 'HH:mm:ss'); }
+
 // ============================================================
 // InventoryInbound.gs
 // Handles all stock additions. Writes to INBOUND_LOG and
@@ -25,6 +29,8 @@ function addStock(data) {
     logId,
     purchaseDate,
     now,
+    _ds(now),
+    _ts(now),
     item.item_id,
     data.barcode,
     data.product_name,
@@ -105,6 +111,8 @@ function _findOrCreateMasterItem(data) {
     data.storage_location,
     data.consumption_track,
     new Date(),
+    _ds(new Date()),
+    _ts(new Date()),
     '', '', // override fields
     'ACTIVE',
   ]);
@@ -126,7 +134,10 @@ function _incrementMasterQty(itemId, qty) {
       const newQty = currentQty + qty;
 
       sheet.getRange(rowNum, COL.MASTER.CURRENT_QTY + 1).setValue(newQty);
-      sheet.getRange(rowNum, COL.MASTER.LAST_UPDATED + 1).setValue(new Date());
+      const _now = new Date();
+      sheet.getRange(rowNum, COL.MASTER.LAST_UPDATED + 1).setValue(_now);
+      sheet.getRange(rowNum, COL.MASTER.LAST_UPDATED_DATE + 1).setValue(_ds(_now));
+      sheet.getRange(rowNum, COL.MASTER.LAST_UPDATED_TIME + 1).setValue(_ts(_now));
 
       // Clear OUT_OF_STOCK status if it was set
       if (String(data[i][COL.MASTER.STATUS]) === 'OUT_OF_STOCK') {
@@ -174,6 +185,8 @@ function removeStock(data) {
   outboundSheet.appendRow([
     logId,
     now,
+    _ds(now),
+    _ts(now),
     data.item_id,
     masterItem[COL.MASTER.BARCODE],
     qtyToRemove,

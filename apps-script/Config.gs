@@ -39,46 +39,52 @@ const COL = {
     STORAGE_LOCATION:   10,
     CONSUMPTION_TRACK:  11,
     LAST_UPDATED:       12,
-    LAST_OVERRIDE_DATE: 13,
-    LAST_OVERRIDE_BY:   14,
-    STATUS:             15,
+    LAST_UPDATED_DATE:  13,  // split from timestamp
+    LAST_UPDATED_TIME:  14,  // split from timestamp
+    LAST_OVERRIDE_DATE: 15,
+    LAST_OVERRIDE_BY:   16,
+    STATUS:             17,
   },
 
   INBOUND: {
     LOG_ID:            0,
     PURCHASE_DATE:     1,
     TIMESTAMP:         2,
-    ITEM_ID:           3,
-    BARCODE:           4,
-    PRODUCT_NAME:      5,
-    BRAND:             6,
-    CATEGORY:          7,
-    SUB_CATEGORY:      8,
-    QTY_ADDED:         9,
-    UNIT_TYPE:         10,
-    UNIT_PRICE:        11,
-    TOTAL_COST:        12,
-    SUPPLIER:          13,
-    INVOICE_NO:        14,
-    EXPIRY_DATE:       15,
-    STORAGE_LOCATION:  16,
-    ENTERED_BY:        17,
-    CONSUMPTION_TRACK: 18,
-    NOTES:             19,
+    ENTRY_DATE:        3,   // split from timestamp
+    ENTRY_TIME:        4,   // split from timestamp
+    ITEM_ID:           5,
+    BARCODE:           6,
+    PRODUCT_NAME:      7,
+    BRAND:             8,
+    CATEGORY:          9,
+    SUB_CATEGORY:      10,
+    QTY_ADDED:         11,
+    UNIT_TYPE:         12,
+    UNIT_PRICE:        13,
+    TOTAL_COST:        14,
+    SUPPLIER:          15,
+    INVOICE_NO:        16,
+    EXPIRY_DATE:       17,
+    STORAGE_LOCATION:  18,
+    ENTERED_BY:        19,
+    CONSUMPTION_TRACK: 20,
+    NOTES:             21,
   },
 
   OUTBOUND: {
     LOG_ID:            0,
     TIMESTAMP:         1,
-    ITEM_ID:           2,
-    BARCODE:           3,
-    QTY_REMOVED:       4,
-    DRAWDOWN_REASON:   5,
-    RECIPE_ID:         6,
-    MEAL_EVENT_ID:     7,
-    DRAWN_BY:          8,
-    CONSUMPTION_TRACK: 9,
-    NOTES:             10,
+    ENTRY_DATE:        2,   // split from timestamp
+    ENTRY_TIME:        3,   // split from timestamp
+    ITEM_ID:           4,
+    BARCODE:           5,
+    QTY_REMOVED:       6,
+    DRAWDOWN_REASON:   7,
+    RECIPE_ID:         8,
+    MEAL_EVENT_ID:     9,
+    DRAWN_BY:          10,
+    CONSUMPTION_TRACK: 11,
+    NOTES:             12,
   },
 
   CONTAINERS: {
@@ -97,16 +103,18 @@ const COL = {
   },
 
   OVERRIDES: {
-    OVERRIDE_ID: 0,
-    TIMESTAMP:   1,
-    ITEM_ID:     2,
-    QTY_BEFORE:  3,
-    QTY_AFTER:   4,
-    DIFFERENCE:  5,
-    REASON:      6,
-    OVERRIDE_BY: 7,
-    APPROVED_BY: 8,
-    NOTES:       9,
+    OVERRIDE_ID:   0,
+    TIMESTAMP:     1,
+    OVERRIDE_DATE: 2,   // split from timestamp
+    OVERRIDE_TIME: 3,   // split from timestamp
+    ITEM_ID:       4,
+    QTY_BEFORE:    5,
+    QTY_AFTER:     6,
+    DIFFERENCE:    7,
+    REASON:        8,
+    OVERRIDE_BY:   9,
+    APPROVED_BY:   10,
+    NOTES:         11,
   },
 
   PRODUCTS: {
@@ -134,13 +142,15 @@ const COL = {
   ALERTS: {
     ALERT_ID:      0,
     TIMESTAMP:     1,
-    ITEM_ID:       2,
-    ALERT_TYPE:    3,
-    CURRENT_QTY:   4,
-    REORDER_LEVEL: 5,
-    EXPIRY_DATE:   6,
-    STATUS:        7,
-    NOTES:         8,
+    ALERT_DATE:    2,   // split from timestamp
+    ALERT_TIME:    3,   // split from timestamp
+    ITEM_ID:       4,
+    ALERT_TYPE:    5,
+    CURRENT_QTY:   6,
+    REORDER_LEVEL: 7,
+    EXPIRY_DATE:   8,
+    STATUS:        9,
+    NOTES:         10,
   },
 
   USERS: {
